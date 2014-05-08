@@ -1,0 +1,31 @@
+#DEBUG ?= 1
+#USE_GUNC ?= 1
+ARCH ?= 32
+NANMATH_VERSION ?= 1
+
+# 设置工程名称
+project ?= libnanmath
+
+# 如果USE_GNUC等于1则设定相应编译选项
+ifeq ($(USE_GNUC),1)
+
+# 调试编译
+ifeq ($(DEBUG),1)
+DEFS += -DNANMATH_DEBUG=1
+else
+DEFS += -DNANMATH_DEBUG=0 -DNODEBUG
+endif
+
+# 一些自定义的宏设定
+DEFS += -DNANMATH_VERSION=$(NANMATH_VERSION)
+
+# 其余错误编译选项
+CXXFLAGS_WERROR = -Werror
+CXXFLAGS += -Wcast-qual -Wcast-align
+CXXFLAGS += -Wall -Wpointer-arith -Wshadow -Wwrite-strings -W -Wno-unused-function
+CXXFLAGS += $(CXXFLAGS_WERROR)
+
+# 链接选项
+LDFLAGS += -shared -fPIC
+
+endif
